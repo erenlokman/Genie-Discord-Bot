@@ -35,7 +35,6 @@ async def on_ready():
 
 
 @bot.command(name="ask")
-# Add this line before the async def ask() line
 @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
 async def ask(ctx, *, question):
     print(f"{ctx.author.name} asked: {question}")
@@ -62,6 +61,9 @@ async def ask(ctx, *, question):
     answer_embed.set_footer(text=f"Asked by: {nickname}")
 
     await ctx.send(embed=answer_embed)
+
+    # Make the bot speak the answer
+    await text_to_speech(ctx, f"{answer}")
 
 
 @ask.error
@@ -193,5 +195,23 @@ def save_question_and_answer_to_file(nickname, question, answer):
         json.dump(data, file, indent=4)
 
 
+async def text_to_speech(ctx, text: str):
+    if not ctx.author.voice:
+        await ctx.send("You must be connected to a voice channel to use this command.")
+        return
+
+    voice_channel = ctx.author.voice.channel
+
+    if not ctx.voice_client:
+        await voice_channel.connect()
+
+    tts = gTTS(text=text, lang="en", slow=False)
+    with tempfile.NamedTemporaryFile(delete=False) as fp:
+        tts.save(fp.name)
+        fp.seek(0)
+        source = discord.FFmpegPCMAudio(executable="ffmpeg", source=fp.name)
+        ctx.voice_client.play(source, after=lambda e: (print(f"Error playing audio: {e}") if e else None, os.remove(fp.name)))
+
+    await ctx.send(f"Playing: {text}")
 
 bot.run(DC_API_KEY)

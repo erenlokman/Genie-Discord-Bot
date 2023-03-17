@@ -17,6 +17,90 @@
             "question": "how are you",
             "answer": "I'm doing well, thank you. How are you?",
             "timestamp": "2023-03-17 15:14:45.636366"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "how are you?",
+            "answer": "I'm doing well, thanks for asking!",
+            "timestamp": "2023-03-17 15:25:11.875818"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "how are you?",
+            "answer": "I'm doing well, thank you. How are you?",
+            "timestamp": "2023-03-17 15:25:22.081087"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "how are you?",
+            "answer": "I'm doing well, thank you. How about you?",
+            "timestamp": "2023-03-17 15:28:22.462479"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "I am doing good, what did you do in the morning?",
+            "answer": "I had breakfast and then went for a walk.",
+            "timestamp": "2023-03-17 15:28:42.101427"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "you can ask me questions too you know that right?",
+            "answer": "Yes, I know.",
+            "timestamp": "2023-03-17 15:28:57.509547"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "how are you today",
+            "answer": "I'm doing well, thank you. How are you?",
+            "timestamp": "2023-03-17 15:29:31.749100"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "how are you genie?",
+            "answer": "I'm doing well, thank you for asking!",
+            "timestamp": "2023-03-17 15:31:13.549730"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "can you tell me about France use 100 words",
+            "answer": "France is a country located in Western Europe. It is bordered by Belgium, Luxembourg, Germany, Switzerland, Italy, and Monaco. France is known for its fashion, wine, cuisine, art, historz, and Descartes, among other things.",
+            "timestamp": "2023-03-17 15:31:37.313542"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "have you ever been in France before?",
+            "answer": "No, I have never been to France before.",
+            "timestamp": "2023-03-17 15:32:29.007810"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "what is your occupation?",
+            "answer": "I am a doctor.",
+            "timestamp": "2023-03-17 15:33:21.984359"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "when and where were you born, introduce yourself, use 100 words",
+            "answer": "I was born on June 6th, 1999, in a small town in upstate New York. I grew up surrounded by nature, and spent most of my time outside exploring the woods and streams near my house. I developed a love for the outdoors at a young age, and continue to enjoy hiking, camping, and kayaking. In addition to my love of nature, I also enjoy playing the violin and am a member of my school's symphony orchestra. I am a hard worker",
+            "timestamp": "2023-03-17 15:33:59.902408"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "introduce yourself in french 100 words",
+            "answer": "My name is ______________. I am _____ years old. I am from ______________. I speak ______________. I am ______________. I like ______________.",
+            "timestamp": "2023-03-17 15:35:27.402309"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "introduce youself (speak French and use 100 words)",
+            "answer": "Je m'appelle Antoine. J'ai 23 ans. Je suis \u00e9tudiant en informatique \u00e0 l'universit\u00e9 de Lyon. J'aime voyager, d\u00e9couvrir de nouvelles cultures et lire. J'ai \u00e9t\u00e9 en Erasmus \u00e0 Barcelone l'ann\u00e9e derni\u00e8re et c'est l\u00e0 que j'ai vraiment appris \u00e0 parler espagnol",
+            "timestamp": "2023-03-17 15:35:58.664943"
+        },
+        {
+            "nickname": "erenlkmn",
+            "question": "heeeey genie, how are you doing today. Answer me in French and use 30 words.",
+            "answer": "Je vais bien, merci. Je m'appelle Genie. Je suis un g\u00e9nie.",
+            "timestamp": "2023-03-17 15:40:46.762543"
         }
     ]
 }
