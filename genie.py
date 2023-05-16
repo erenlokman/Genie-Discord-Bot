@@ -39,7 +39,7 @@ async def on_ready():
 async def ask(ctx, *, question):
     print(f"{ctx.author.name} asked: {question}")
     response = openai.Completion.create(
-        engine="text-davinci-002",
+        engine="text-davinci-003",
         prompt=f"{question}\n\n",
         temperature=0.7,
         max_tokens=100,
@@ -125,7 +125,7 @@ async def prediction(ctx, *, coin_name: str):
 
             # Generate a response from ChatGPT
             response = openai.Completion.create(
-                engine="text-davinci-002",
+                engine="text-davinci-004",
                 prompt=prompt,
                 max_tokens=100,
                 n=1,
@@ -213,5 +213,65 @@ async def text_to_speech(ctx, text: str):
         ctx.voice_client.play(source, after=lambda e: (print(f"Error playing audio: {e}") if e else None, os.remove(fp.name)))
 
     await ctx.send(f"Playing: {text}")
+
+
+@bot.command(name="stt")
+async def stt(ctx):
+    voice_channel = ctx.author.voice.channel
+    if not voice_channel:
+        await ctx.send("You must be connected to a voice channel to use this command.")
+        return
+
+    # Connect to the voice channel
+    voice_client = await voice_channel.connect()
+
+    # Start listening to the voice channel
+    voice_client.start_listening()
+    await ctx.send("Listening...")
+
+    # Transcribe the speech to text
+    transcribed_text = transcribe_speech(voice_client)
+
+    # Pass the transcribed text to the GPT model
+    response = openai.Completion.create(
+        engine="text-davinci-004",
+        prompt=f"{transcribed_text}\n\n",
+        temperature=0.7,
+        max_tokens=100,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+    answer = response.choices[0].text.strip()
+
+    # Send the answer back to the chat channel
+    await ctx.send(answer)
+
+async def on_message(message):
+    if message.content == "!stt":
+        voice_channel = message.author.voice.channel
+        if voice_channel is not None:
+            # Join the user's voice channel
+            vc = await voice_channel.connect()
+
+            # Get the audio from the voice channel
+            audio = vc.sources.get(discord.FFmpegPCMAudio)
+
+            # Use the speech_recognition library to transcribe the audio
+            r = sr.Recognizer()
+            transcribed_text = r.recognize_google(audio)
+
+            # Disconnect from the voice channel
+            await vc.disconnect()
+
+            # Send the transcribed text as a message
+            await message.channel.send(transcribed_text)
+        else:
+            await message.channel.send("You must be in a voice channel to use this command.")
+
+def transcribe_speech(voice_client):
+    # Replace this with your own code to transcribe the speech to text
+    transcribed_text = "Sample transcribed text"
+    return transcribed_text
 
 bot.run(DC_API_KEY)
