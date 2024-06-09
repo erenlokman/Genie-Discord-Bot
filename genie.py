@@ -8,7 +8,6 @@ import tempfile
 from gtts import gTTS
 from discord import Intents
 from discord.ext import commands
-from discord.ext import commands
 from dotenv import load_dotenv
 from pycoingecko import CoinGeckoAPI
 
@@ -38,9 +37,12 @@ async def on_ready():
 @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
 async def ask(ctx, *, question):
     print(f"{ctx.author.name} asked: {question}")
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=f"{question}\n\n",
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question},
+        ],
         temperature=0.7,
         max_tokens=100,
         top_p=1,
@@ -48,7 +50,7 @@ async def ask(ctx, *, question):
         presence_penalty=0,
     )
 
-    answer = response.choices[0].text.strip()
+    answer = response.choices[0].message['content'].strip()
     nickname = ctx.author.display_name  # Get the user's nickname
     save_question_and_answer_to_file(nickname, question, answer)
 
@@ -124,16 +126,18 @@ async def prediction(ctx, *, coin_name: str):
             prompt = f"Based on the recent market trends, the price of {symbol} has changed by {price_change_percentage_24h:.2f}% in the last 24 hours. What is your prediction and analysis for the future of {symbol}?"
 
             # Generate a response from ChatGPT
-            response = openai.Completion.create(
-                engine="text-davinci-004",
-                prompt=prompt,
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a financial analyst."},
+                    {"role": "user", "content": prompt},
+                ],
                 max_tokens=100,
                 n=1,
-                stop=None,
                 temperature=0.5,
             )
 
-            prediction_text = response.choices[0].text.strip()
+            prediction_text = response.choices[0].message['content'].strip()
             await ctx.send(prediction_text)
         else:
             await ctx.send(f"Could not find the cryptocurrency '{coin_name}'.")
@@ -145,6 +149,7 @@ async def prediction(ctx, *, coin_name: str):
 @prediction.error
 async def prediction_error(ctx, error):
     await ctx.send(f"An error occurred while processing the prediction command: {error}")
+
 
 @bot.command(name="speak")
 async def speak(ctx, *, text: str):
@@ -166,6 +171,7 @@ async def speak(ctx, *, text: str):
         ctx.voice_client.play(source, after=lambda e: (print(f"Error playing audio: {e}") if e else None, os.remove(fp.name)))
 
     await ctx.send(f"Playing: {text}")
+
 
 def save_question_and_answer_to_file(nickname, question, answer):
     data = {}
@@ -233,19 +239,23 @@ async def stt(ctx):
     transcribed_text = transcribe_speech(voice_client)
 
     # Pass the transcribed text to the GPT model
-    response = openai.Completion.create(
-        engine="text-davinci-004",
-        prompt=f"{transcribed_text}\n\n",
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": transcribed_text},
+        ],
         temperature=0.7,
         max_tokens=100,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0,
     )
-    answer = response.choices[0].text.strip()
+    answer = response.choices[0].message['content'].strip()
 
     # Send the answer back to the chat channel
     await ctx.send(answer)
+
 
 async def on_message(message):
     if message.content == "!stt":
@@ -269,9 +279,11 @@ async def on_message(message):
         else:
             await message.channel.send("You must be in a voice channel to use this command.")
 
+
 def transcribe_speech(voice_client):
     # Replace this with your own code to transcribe the speech to text
     transcribed_text = "Sample transcribed text"
     return transcribed_text
+
 
 bot.run(DC_API_KEY)

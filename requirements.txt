@@ -1,0 +1,5 @@
+openai
+discord.py
+gTTS
+python-dotenv
+pycoingecko
